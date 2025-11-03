@@ -4,6 +4,7 @@
         'titulo'=>"Sistema Aula",
         'cabecalho' => 'Alterar Aluno',
         'rota' => '',
+        'relatorio' => '',
     ]
 )
 @section('conteudo')

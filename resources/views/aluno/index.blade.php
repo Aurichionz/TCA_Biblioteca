@@ -3,6 +3,7 @@
         'titulo'=>"Sistema Aula",
         'cabecalho' => 'Lista de Alunos',
         'rota' => 'aluno.create',
+        'relatorio' => 'report.aluno',
     ]
 )
 @section('conteudo')
