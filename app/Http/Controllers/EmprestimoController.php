@@ -55,7 +55,7 @@ class EmprestimoController extends Controller
             'aluno_id'        => auth()->id(),
             'data_emprestimo' => Carbon::now(),
             'data_devolucao'  => Carbon::now()->addDays(7), // +7 DIAS AUTOMÁTICOS
-            'status'          => 'pendente',
+            
         ]);
 
         return redirect()->route('emprestimos.index')

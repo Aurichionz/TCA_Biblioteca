@@ -72,12 +72,13 @@
                         @else
                             @if($livro->quantidade > 0)
                                 <form action="{{ route('emprestimos.store') }}" method="POST" style="display:inline;">
-                                    @csrf
-                                    <input type="hidden" name="livro_id" value="{{ $livro->id }}">
-                                    <button type="submit" class="btn btn-primary btn-sm">
-                                        📚 Pegar emprestado
-                                    </button>
-                                </form>
+                                @csrf
+                                <input type="hidden" name="livro_id" value="{{ $livro->id }}">
+                                <input type="hidden" name="aluno_id" value="{{ auth()->user()->id }}">
+                                <button type="submit" class="btn btn-primary btn-sm">
+                                    📚 Pegar emprestado
+                                </button>
+                            </form>
                             @else
                                 <span class="badge bg-danger">Indisponível</span>
                             @endif

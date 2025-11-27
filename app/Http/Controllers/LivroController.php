@@ -39,13 +39,14 @@ class LivroController extends Controller
 
     // 📌 VALIDAR ANTES DE SALVAR!
     $request->validate([
-        'titulo' => 'required|string|max:255',
-        'categoria_id' => 'required|exists:categorias,id',
-        'autor' => 'required|string|max:255',
-        'ano' => 'required|integer',
-        'quantidade' => 'required|integer',
-        'capa' => 'nullable|image|mimes:jpeg,png,jpg,gif',
-    ]);
+    'titulo' => 'required|string',
+    'categoria_id' => 'required|exists:categorias,id',
+    'autor_id' => 'required|exists:autores,id', // corrigido
+    'ano' => 'required|integer',
+    'quantidade' => 'required|integer',
+    'capa' => 'nullable|image',
+]);
+
 
     $data = $request->all();
 
