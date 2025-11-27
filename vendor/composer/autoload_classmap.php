@@ -28,7 +28,7 @@ return array(
     'App\\Models\\Emprestimo' => $baseDir . '/app/Models/Emprestimo.php',
     'App\\Models\\Livro' => $baseDir . '/app/Models/Livro.php',
     'App\\Models\\User' => $baseDir . '/app/Models/User.php',
-    'App\\Providers\\AppServiceProvider' => $baseDir . '/app/Providers/AppServiceProvider.php',
+    'App\\Policies\\LivroPolicy' => $baseDir . '/app/Policies/LivroPolicy.php',
     'App\\View\\Components\\AppLayout' => $baseDir . '/app/View/Components/AppLayout.php',
     'App\\View\\Components\\GuestLayout' => $baseDir . '/app/View/Components/GuestLayout.php',
     'Attribute' => $vendorDir . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',

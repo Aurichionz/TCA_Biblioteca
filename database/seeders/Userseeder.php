@@ -2,29 +2,28 @@
 
 namespace Database\Seeders;
 
+use Illuminate\Database\Seeder;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
-    function run(): void
+class UserSeeder extends Seeder
 {
-    // ADMIN
-    User::firstOrCreate(
-        ['email' => 'teste@gmail.com'],
-        [
-            'name' => 'Admin',
-            'password' => Hash::make('123456'),
-            'role' => 'admin'    // <---- AQUI DEFINIMOS O PAPEL
-        ]
-    );
+    public function run(): void
+    {
+        // ADMIN
+        User::create([
+            'name' => 'Administrador',
+            'email' => 'teste@gmail.com',
+            'password' => Hash::make('12345678'),
+            'is_admin' => true,   // <--- ESSENCIAL
+        ]);
 
-    // USUÁRIO NORMAL
-    User::firstOrCreate(
-        ['email' => 'teste2@gmail.com'],
-        [
-            'name' => 'Usuário',
-            'password' => Hash::make('123456'),
-            'role' => 'user'     // <---- USUÁRIO NORMAL
-        ]
-    );
+        // USUÁRIO COMUM
+        User::create([
+            'name' => 'Usuário Comum',
+            'email' => 'teste2@gmail.com',
+            'password' => Hash::make('123456789'),
+            'is_admin' => false,  // <--- ESSENCIAL
+        ]);
+    }
 }
-

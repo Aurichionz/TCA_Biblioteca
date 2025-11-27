@@ -22,8 +22,9 @@
         </div>
     @endif
 
-    <form action="{{ route('livros.store') }}" method="POST" enctype="multipart/form-data">
-    @csrf
+        <form action="{{ route('livros.store') }}" method="POST" enctype="multipart/form-data">
+            @csrf
+
 
         <div class="form-group mt-2">
             <label for="titulo">Título</label>

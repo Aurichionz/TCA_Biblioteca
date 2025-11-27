@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('livro_id')->constrained()->onDelete('cascade');
             $table->foreignId('aluno_id')->constrained('users')->onDelete('cascade');
-            $table->date('data_emprestimo')>nullable();
+            $table->date('data_emprestimo')->nullable();
             $table->date('data_devolucao')->nullable();
             $table->enum('status', ['Emprestado', 'Devolvido', 'Atrasado'])->default('Emprestado');
             $table->timestamps();

@@ -21,53 +21,49 @@ class LivroController extends Controller
     }
 
     public function create()
-    {
-        $this->authorize('create', Livro::class);
+{
+    $this->authorize('create', Livro::class); // CORRETO! Está no Controller
 
-        $categorias = Categoria::all();
-        $autores = Autor::all(); // <-- ADICIONAR
+    $categorias = Categoria::all();
+    $autores = Autor::all();
 
-        if ($categorias->isEmpty() || $autores->isEmpty()) {
-            return redirect()->route('livros.index')
-                    ->with('error', 'Cadastre categorias e autores antes de cadastrar um livro!');
-        }
-
-        return view('livros.create', compact('categorias', 'autores'));
-    }
+    return view('livros.create', compact('categorias', 'autores'));
+}
 
     public function store(Request $request)
-    {
-            // Só o admin pode cadastrar
-            if (auth()->user()->email !== 'teste@gmail.com') {
-                return redirect('/')->with('error', 'Apenas o ADMIN pode cadastrar livros.');
-            }
-
-            // Código normal de salvar
-            Livro::create($request->all());
-            return redirect('/livros');
-
-        $request->validate([
-            'titulo' => 'required|string|max:255',
-            'categoria_id' => 'required|exists:categorias,id',
-            'autor' => 'required|string|max:255',
-            'ano' => 'required|integer',
-            'quantidade' => 'required|integer',
-            'capa' => 'nullable|image|mimes:jpeg,png,jpg,gif',
-        ]);
-
-        $data = $request->all();
-
-        if ($request->hasFile('capa')) {
-            $capa = $request->file('capa');
-            $nomeCapa = time() . '.' . $capa->getClientOriginalExtension();
-            $capa->move(public_path('capas'), $nomeCapa);
-            $data['capa'] = $nomeCapa; // MUITO IMPORTANTE
-        }
-
-        Livro::create($data);
-
-        return redirect()->route('livros.index')->with('success', 'Livro cadastrado com sucesso!');
+{
+    // Só o ADMIN pode cadastrar
+    if (auth()->user()->email !== 'teste@gmail.com') {
+        return redirect('/')->with('error', 'Apenas o ADMIN pode cadastrar livros.');
     }
+
+    // 📌 VALIDAR ANTES DE SALVAR!
+    $request->validate([
+        'titulo' => 'required|string|max:255',
+        'categoria_id' => 'required|exists:categorias,id',
+        'autor' => 'required|string|max:255',
+        'ano' => 'required|integer',
+        'quantidade' => 'required|integer',
+        'capa' => 'nullable|image|mimes:jpeg,png,jpg,gif',
+    ]);
+
+    $data = $request->all();
+
+    // 📌 UPLOAD DA CAPA
+    if ($request->hasFile('capa')) {
+        $capa = $request->file('capa');
+        $nomeCapa = time() . '.' . $capa->getClientOriginalExtension();
+        $capa->move(public_path('capas'), $nomeCapa);
+        $data['capa'] = $nomeCapa;
+    }
+
+    // 📌 SALVAR NO BANCO
+    Livro::create($data);
+
+    // 📌 REDIRECIONAR PARA A LISTA
+    return redirect()->route('livros.index')->with('success', 'Livro cadastrado com sucesso!');
+}
+
 
     public function edit($id)
     {
