@@ -45,4 +45,10 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function emprestimos()
+    {
+        return $this->hasMany(Emprestimo::class, 'aluno_id');
+    }
+
 }
