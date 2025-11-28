@@ -29,12 +29,8 @@ class LivroPolicy
      */
     public function create(User $user)
     {
-        return $user->email === 'teste@gmail.com'; // ou is_admin === 1
+        return $user->email === 'teste@gmail.com';
     }
-
-
-
-
     /**
      * Determine whether the user can update the model.
      */

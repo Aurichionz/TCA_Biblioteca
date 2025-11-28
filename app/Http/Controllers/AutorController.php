@@ -29,8 +29,8 @@ class AutorController extends Controller
 
     public function edit($id)
     {
-        $autor = Autor::findOrFail($id); // garante que temos o autor
-        return view('autores.edit', compact('autor')); // deve passar o autor para a view
+        $autor = Autor::findOrFail($id);
+        return view('autores.edit', compact('autor'));
     }
 
 

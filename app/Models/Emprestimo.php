@@ -9,6 +9,11 @@ class Emprestimo extends Model
 {
     use HasFactory;
 
+    protected $casts = [
+        'data_emprestimo' => 'datetime',
+        'data_devolucao' => 'datetime',
+    ];
+
     protected $fillable = [
         'livro_id', 'aluno_id', 'data_emprestimo', 'data_devolucao', 'status'
     ];

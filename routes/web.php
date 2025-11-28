@@ -7,31 +7,28 @@ use App\Http\Controllers\EmprestimoController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-/* LOGIN */
+// LOGIN
 Route::get('/login', [\App\Http\Controllers\Auth\AuthenticatedSessionController::class, 'create'])->name('login');
 require __DIR__.'/auth.php';
 
-/* BLOQUEAR REGISTRO */
+//BLOQUEAR REGISTRO
 Route::get('register', fn() => redirect()->route('login'));
 Route::post('register', fn() => redirect()->route('login'));
 
-/* ÁREA LOGADA */
+//ÁREA LOGADA
 Route::middleware(['auth'])->group(function () {
 
     Route::get('/', fn() => redirect()->route('livros.index'));
-
     Route::get('/dashboard', fn () => view('dashboard'))->name('dashboard');
-
-    // Perfil
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-
-    // --- 📚 Rotas para TODOS OS USUÁRIOS LOGADOS ---
     Route::resource('livros', LivroController::class);
     Route::resource('emprestimos', EmprestimoController::class)->only(['index', 'store', 'show']);
+    Route::get('emprestimos/{id}/comprovante', [EmprestimoController::class, 'comprovantePDF'])->name('emprestimos.comprovante');
+    Route::get('alunos/{id}/historico', [EmprestimoController::class, 'historicoPDF'])->name('alunos.historico');
 
-    // --- 🔒 Rotas SOMENTE PARA ADMIN ---
+ //SOMENTE PARA ADMIN
     Route::middleware([])->group(function () {
         Route::get('/admin/emprestimos', [EmprestimoController::class, 'admin'])->name('emprestimos.admin');
 

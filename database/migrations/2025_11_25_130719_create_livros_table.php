@@ -14,13 +14,13 @@ return new class extends Migration
         Schema::create('livros', function (Blueprint $table) {
             $table->id();
             $table->string('titulo');
-            $table->unsignedBigInteger('categoria_id'); // chave estrangeira
+            $table->unsignedBigInteger('categoria_id');
             $table->string('autor')->nullable();
             $table->integer('ano')->nullable();
             $table->integer('quantidade')->default(1);
             $table->timestamps();
 
-            $table->string('capa')->nullable(); // campo para imagem
+            $table->string('capa')->nullable();
             $table->foreign('categoria_id')->references('id')->on('categorias')->onDelete('cascade');
         });
     }

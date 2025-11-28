@@ -21,7 +21,7 @@ class CategoriaController extends Controller
      */
    public function index()
     {
-        $categorias = Categoria::all(); // pega todas do banco
+        $categorias = Categoria::all();
         return view('categorias.index', compact('categorias'));
     }
 

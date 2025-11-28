@@ -16,41 +16,37 @@ class LivroController extends Controller
 
     public function index()
     {
-        $livros = Livro::with('categoria')->get();
+       $livros = Livro::with(['categoria','autor'])->get();
         return view('livros.index', compact('livros'));
     }
 
-    public function create()
-{
-    $this->authorize('create', Livro::class); // CORRETO! Está no Controller
+        public function create()
+    {
+        $this->authorize('create', Livro::class);
 
-    $categorias = Categoria::all();
-    $autores = Autor::all();
+        $categorias = Categoria::all();
+        $autores = Autor::all();
 
-    return view('livros.create', compact('categorias', 'autores'));
-}
+        return view('livros.create', compact('categorias', 'autores'));
+    }
 
     public function store(Request $request)
-{
-    // Só o ADMIN pode cadastrar
+    {
     if (auth()->user()->email !== 'teste@gmail.com') {
         return redirect('/')->with('error', 'Apenas o ADMIN pode cadastrar livros.');
     }
 
-    // 📌 VALIDAR ANTES DE SALVAR!
     $request->validate([
-    'titulo' => 'required|string',
-    'categoria_id' => 'required|exists:categorias,id',
-    'autor_id' => 'required|exists:autores,id', // corrigido
-    'ano' => 'required|integer',
-    'quantidade' => 'required|integer',
-    'capa' => 'nullable|image',
-]);
-
+        'titulo' => 'required|string',
+        'categoria_id' => 'required|exists:categorias,id',
+        'autor' => 'required|string',
+        'ano' => 'required|integer',
+        'quantidade' => 'required|integer',
+        'capa' => 'nullable|image',
+    ]);
 
     $data = $request->all();
 
-    // 📌 UPLOAD DA CAPA
     if ($request->hasFile('capa')) {
         $capa = $request->file('capa');
         $nomeCapa = time() . '.' . $capa->getClientOriginalExtension();
@@ -58,12 +54,17 @@ class LivroController extends Controller
         $data['capa'] = $nomeCapa;
     }
 
-    // 📌 SALVAR NO BANCO
-    Livro::create($data);
+    Livro::create([
+        'titulo' => $data['titulo'],
+        'categoria_id' => $data['categoria_id'],
+        'autor' => $data['autor'],
+        'ano' => $data['ano'],
+        'quantidade' => $data['quantidade'],
+        'capa' => $data['capa'] ?? null,
+    ]);
 
-    // 📌 REDIRECIONAR PARA A LISTA
     return redirect()->route('livros.index')->with('success', 'Livro cadastrado com sucesso!');
-}
+    }
 
 
     public function edit($id)
